@@ -5,10 +5,6 @@ import dotenv from "dotenv";
 // ✅ Load .env file
 dotenv.config({ path: "./.env" });
 
-// ✅ Debug check
-console.log("DEBUG PORT:", process.env.PORT);
-console.log("DEBUG URI:", process.env.MONGODB_URI);
-
 const app = express();
 const PORT = process.env.PORT;
 
@@ -23,14 +19,16 @@ async function connectDB() {
   }
 }
 
-connectDB();
+connectDB()
+.then(()=>{
+  app.listen(PORT,()=>{
+    console.log(`server is running at port:${PORT}`);
+    
+  })
+})
+.catch((err)=>{
+  console.log("MONGO db connection failed!!!",err);
+  
 
-// ✅ Simple route
-app.get("/", (req, res) => {
-  res.send("Hello, MongoDB is connected!");
-});
+})
 
-// ✅ Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-});
