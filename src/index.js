@@ -1,11 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import {app} from './app.js'
 
 // ✅ Load .env file
 dotenv.config({ path: "./.env" });
 
-const app = express();
 const PORT = process.env.PORT;
 
 // ✅ Database connection
