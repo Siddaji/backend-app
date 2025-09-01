@@ -15,6 +15,10 @@ const registerUser=asyncHandler(async(req,res)=>{
 //   remove password and refresh token feild from response
 //   check for user creation
 //   return response
+console.log("files recieved:",req.files);
+console.log("body recieved:",req.body);
+
+
   const {fullName,email,username,password}=req.body
   console.log("email:",email);
 
@@ -25,15 +29,15 @@ const registerUser=asyncHandler(async(req,res)=>{
       throw new ApiError(400,"All feilds are required")
   }
 
-  const existedUser=User.findOne({                       //check if user already exists:username and email
+  const existedUser=await User.findOne({                       //check if user already exists:username and email
     $or:[{ username },{ email }]
   })
   if (existedUser) {
     throw new ApiError(409,"user with email or username already exited")
   }
 
-    const avatarLocalPath=req.files?.avatar[0]?.path;               //   check for images,check for avatar
-    const coverImageLocalPath=req.files?.[0]?.coverImage[0].path;
+    const avatarLocalPath=req.files?.avatar?.[0]?.path;               //   check for images,check for avatar
+    const coverImageLocalPath=req.files?.coverImage?.[0]?.path;
 
     if (!avatarLocalPath) {
       throw new ApiError(400, "Avatar file is required")
